@@ -122,6 +122,16 @@ userSchema.methods.createPasswordResetToken = function () {
     // return the unencrypted token
     return resetToken;
 };
+/**
+ * Compare the candidate password with the user password.
+ *
+ * @param {string} candidatePassword - The candidate password to compare.
+ * @param {string} userPassword - The user password to compare against.
+ * @return {Promise<boolean>} A promise that resolves to a boolean indicating if the passwords match.
+ */
+userSchema.methods.correctPassword = async function (candidatePassword, userPassword) {
+    return bcryptjs_1.default.compare(candidatePassword, userPassword);
+};
 const User = mongoose_1.default.model('User', userSchema, 'users');
 exports.default = User;
 //# sourceMappingURL=userModel.js.map

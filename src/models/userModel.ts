@@ -3,19 +3,22 @@ import validator from 'validator';
 import bcrypt from 'bcryptjs';
 import crypto from 'crypto';
 
-interface IUser extends mongoose.Document {
+export interface IUser extends mongoose.Document {
     name: string;
     email: string;
     photo: string;
     role: string;
     password: string;
     passwordConfirm?: string;
-    passwordChangedAt: Date;
-    passwordResetToken: string;
-    passwordResetExpires: Date;
+    passwordChangedAt?: Date;
+    passwordResetToken?: string;
+    passwordResetExpires?: Date;
     active: boolean;
     createdAt: Date;
     updatedAt: Date;
+    correctPassword: (candidatePassword: string, userPassword: string) => Promise<boolean>;
+    changedPasswordAfter: (JWTTimestamp: number) => boolean;
+    createPasswordResetToken: () => string;
 }
 
 const userSchema = new mongoose.Schema<IUser>({
@@ -135,6 +138,17 @@ userSchema.methods.createPasswordResetToken = function(): string {
     this.passwordResetExpires = Date.now() + 10 * 60 * 1000;
     // return the unencrypted token
     return resetToken;
+};
+
+/**
+ * Compare the candidate password with the user password.
+ *
+ * @param {string} candidatePassword - The candidate password to compare.
+ * @param {string} userPassword - The user password to compare against.
+ * @return {Promise<boolean>} A promise that resolves to a boolean indicating if the passwords match.
+ */
+userSchema.methods.correctPassword = async function(candidatePassword: string, userPassword: string): Promise<boolean> {
+    return bcrypt.compare(candidatePassword, userPassword);
 };
 
 const User = mongoose.model('User', userSchema, 'users');
