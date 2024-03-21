@@ -15,7 +15,8 @@ mongoose_1.default.connect(DB)
     .then(() => console.log('Connected to MongoDB Successfully'))
     .catch((error) => console.log(error));
 const port = process.env.PORT || 3000;
-app_1.default.listen(port, () => {
+const server = app_1.default.listen(port, () => {
     console.log(`Server running on port ${port}`);
 });
+exports.default = server;
 //# sourceMappingURL=server.js.map
