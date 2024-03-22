@@ -9,10 +9,11 @@
     "build": "npx tsc",
     "start": "node dist/server.js",
     "dev": "npx tsc --watch & node dist/server.js",
-    "prod": "NODE_ENV=production node dist/server.js"
+    "prod": "NODE_ENV=production node dist/server.js",
+    "vercel-build": "echo hello from vercel build"
   },
   "engines": {
-    "node": "20.x"
+    "node": "18.x"
   },
   "keywords": [],
   "author": "",
