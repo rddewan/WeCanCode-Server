@@ -12,7 +12,7 @@
     "prod": "NODE_ENV=production node dist/server.js"
   },
   "engines": {
-    "node": "18.x"
+    "node": "20.x"
   },
   "keywords": [],
   "author": "",
