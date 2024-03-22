@@ -1,3 +1,3 @@
-import { server } from '../dist/server';
+import server from '../src/server';
 
 export default server;
